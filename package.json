@@ -1,0 +1,11 @@
+{
+  "name": "the-api-weather-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/poliach/the-api-weather-react.git",
+  "author": "Polina Loz <pollozov@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  }
+}
