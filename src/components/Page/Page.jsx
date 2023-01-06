@@ -10,13 +10,17 @@ import useForecast from '../../hooks/useForecast';
 import styles from './Page.module.css';
 
 const Page = () => {
-    const { isError, isLoading, forecast } = useForecast();
+    const { isError, isLoading, forecast, submitRequest } = useForecast();
+
+    const onSubmit = (value) => {
+        submitRequest(value);
+    }
 
     return (
         <Fragment>
             <Header />
             <div className={styles.box}>
-                {!isLoading && <Form />}
+                {!isLoading && <Form submitSearch={onSubmit} />}
                 {isError && <Error message={isError} />}
                 {isLoading && <Loader />}
             </div>
