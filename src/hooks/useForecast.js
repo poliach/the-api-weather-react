@@ -1,6 +1,4 @@
-import { useState } from "react";
-import axios from 'axios';
-
+import { useEffect, useState } from "react";
 import getCurrentDayForecast from '../helpers/getCurrentDayForecast';
 import getCurrentDayDetailedForecast from '../helpers/getCurrentDayDetailedForecast';
 import getUpcomingDaysForecast from '../helpers/getUpcomingDaysForecast';
@@ -12,36 +10,42 @@ const useForcast = () => {
     const [isLoading, setLoading] = useState(false)
     const [forecast, setForecast] = useState(null)
 
-    // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
-    //REACT_APP_API_KEY
-
-    //http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+    const [response, setResponse] = useState(null)
 
     const getSearchOptions = async location => {
-        const { data } = await axios(`${BASE_URL}/search`, { params: { query: location } });
+        fetch(
+            `${BASE_URL}/geo/1.0/direct?q=${location}&limit=1&appid=${process.env.REACT_APP_API_KEY}`
+        )
+        .then((res) => res.json())
+        // .then((data) => {
+        //     const locCity = data[0].name
+        //     setError('There is no such location');
+        //     setLoading(false);
+        // })
+        .then(data => {
+            getForecast(data);
+            console.log({ data })
+            return data;
+        })
+    }
 
-        console.log({data})
+            // ${BASE_URL}/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_API_KEY}
+    // api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
 
-        if (!data || data.length === 0) {
-            setError('There is no such location');
-            setLoading(false);
-            return;
+    const getForecast = async data => {
+        fetch(
+            `${BASE_URL}/data/2.5/forecast?lat=${data[0].lat}&lon=${data[0].lon}&appid=${process.env.REACT_APP_API_KEY}`
+        )
+        .then((res) => res.json())
+        .then((data) => {
+        const forecastData = {
+          ...data.city,
+          list: data.list.slice(0, 16),
         }
-
-        return data[0];
-    };
-
-    const getForecastData = async woeid => {
-        const { data } = await axios(`${BASE_URL}/${woeid}`);
-
-        if (!data || data.length === 0) {
-            setError('Something went wrong');
-            setLoading(false);
-            return;
-        }
-
-        return data;
-    };
+        setForecast(forecastData)
+      })
+      .then(data => console.log({ data }))
+    }
 
     const gatherForecastData = data => {
         const currentDay = getCurrentDayForecast(data.consolidated_weather[0], data.title);
@@ -55,14 +59,12 @@ const useForcast = () => {
     const submitRequest = async location => {
         setLoading(true);
         setError(false);
+        
+        if (location !== '') {
+            getSearchOptions(location)
+        }
 
-        const response = await getWoeid(location);
-        if (!response?.woeid) return;
-
-        const data = await getForecastData(response.woeid);
-        if (!data) return;
-
-        gatherForecastData(data);
+        gatherForecastData();
     };
 
     return {
