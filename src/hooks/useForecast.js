@@ -5,12 +5,11 @@ import getUpcomingDaysForecast from '../helpers/getUpcomingDaysForecast';
 
 const BASE_URL = 'http://api.openweathermap.org'
 
-const useForcast = () => {
+const useForecast = () => {
+    const [city, setCity] = useState('')
     const [isError, setError] = useState(false)
     const [isLoading, setLoading] = useState(false)
     const [forecast, setForecast] = useState(null)
-
-    const [response, setResponse] = useState(null)
 
     const getSearchOptions = async location => {
         fetch(
@@ -24,7 +23,7 @@ const useForcast = () => {
         // })
         .then(data => {
             getForecast(data);
-            console.log({ data })
+            setCity(data[0].name)
             return data;
         })
     }
@@ -34,26 +33,25 @@ const useForcast = () => {
 
     const getForecast = async data => {
         fetch(
-            `${BASE_URL}/data/2.5/forecast?lat=${data[0].lat}&lon=${data[0].lon}&appid=${process.env.REACT_APP_API_KEY}`
+            `${BASE_URL}/data/2.5/forecast?lat=${data[0].lat}&lon=${data[0].lon}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
         )
         .then((res) => res.json())
         .then((data) => {
         const forecastData = {
           ...data.city,
-          list: data.list.slice(0, 16),
+          list: data.list.slice(0, 5),
         }
-        setForecast(forecastData)
+        gatherForecastData(forecastData)
       })
-      .then(data => console.log({ data }))
     }
 
     const gatherForecastData = data => {
-        const currentDay = getCurrentDayForecast(data.consolidated_weather[0], data.title);
-        const currentDayDetails = getCurrentDayDetailedForecast(data.consolidated_weather[0]);
+        const currentDay = getCurrentDayForecast(data.list[0], data.name);
+        const currentDayDetails = getCurrentDayDetailedForecast(data.list[0]);
         const upcomingDays = getUpcomingDaysForecast(data.consolidated_weather);
 
         setForecast({ currentDay, currentDayDetails, upcomingDays });
-        setLoading(false);
+       // setLoading(false);
     };
 
     const submitRequest = async location => {
@@ -63,8 +61,6 @@ const useForcast = () => {
         if (location !== '') {
             getSearchOptions(location)
         }
-
-        gatherForecastData();
     };
 
     return {
@@ -75,4 +71,4 @@ const useForcast = () => {
     };
 }
 
-export default useForcast;
+export default useForecast;
