@@ -24,7 +24,7 @@ const Page = () => {
                 {isError && <Error message={isError} />}
                 {isLoading && <Loader />}
             </div>
-            {forecast && <Forecast />}
+            {forecast && <Forecast forecast={forecast}/>}
         </Fragment>
     );
 };
