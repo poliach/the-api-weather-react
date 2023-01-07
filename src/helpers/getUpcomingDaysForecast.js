@@ -6,7 +6,7 @@ const getUpcomingDaysForecast = data => {
     let currentDay = moment().day()
     const mapped = data.filter((day) => {
         const newDay = moment(day.dt_txt).day()
-        if (newDay !== currentDay) {
+        if (newDay !== currentDay && moment(day.dt_txt).hour() === 12) {
             currentDay = newDay
             return day
         }
@@ -15,9 +15,7 @@ const getUpcomingDaysForecast = data => {
         temperature: Math.round(day.main.temp_max),
         weekday: getWeekday(day.dt_txt),
     }))
-    
-    console.log(mapped);
-    return mapped
+    return mapped;
 }
 
 export default getUpcomingDaysForecast;
