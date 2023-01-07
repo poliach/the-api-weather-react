@@ -9,7 +9,7 @@ const imgUrlBase = 'http://openweathermap.org/img/';
 
 const UpcomingDaysForecastItem = ({ weekday, temperature, imgUrl }) => (
     <li className={`${styles.weekday} d-flex flex-column justify-content-center align-items-center p-2`}>
-        <img className="mb-2" width="30" src={`${imgUrlBase}wn/${data.weather[0].icon}@2x.png`} alt="" />
+        <img className="mb-2" width="30" src={`${imgUrlBase}wn/${imgUrl}@2x.png`} alt="" />
         <span className="mb-2">{weekday}</span>
         <span className="font-weight-bold">{temperature}&deg;</span>
     </li>
@@ -17,7 +17,7 @@ const UpcomingDaysForecastItem = ({ weekday, temperature, imgUrl }) => (
 
 UpcomingDaysForecastItem.propTypes = {
     weekday: PropTypes.string.isRequired,
-    temperature: PropTypes.string.isRequired,
+    temperature: PropTypes.number.isRequired,
     imgUrl: PropTypes.string.isRequired,
 };
 

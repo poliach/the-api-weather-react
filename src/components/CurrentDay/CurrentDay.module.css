@@ -2,6 +2,10 @@
     border-radius: var(--main-border-radius);
 }
 
+.container {
+    position: relative;
+    display: flex;
+}
 .cardInner {
     z-index: 1;
     height: 300px;
@@ -26,6 +30,7 @@
     top: 0;
     left: 0;
     background-image: url('./assets/mountain.jpg');
+    z-index: -1;
     background-size: cover;
     border-radius: var(--main-border-radius);
 }

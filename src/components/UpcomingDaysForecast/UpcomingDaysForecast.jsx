@@ -7,8 +7,8 @@ import styles from './UpcomingDaysForecast.module.css';
 
 const UpcomingDaysForecast = ({ days }) =>  (
     <ul className={`${styles.weekList} d-flex justify-content-between p-0`}>
-        {days.map(day => (
-            <UpcomingDaysForecastItem {...day} key={day.weekday} />
+        {days.map((day, index) => (
+            <UpcomingDaysForecastItem {...day} key={`${day.weekday}-${index}`} />
         ))}
     </ul>
 );
