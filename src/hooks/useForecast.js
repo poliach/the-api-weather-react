@@ -51,7 +51,7 @@ const useForecast = () => {
         const upcomingDays = getUpcomingDaysForecast(data.consolidated_weather);
 
         setForecast({ currentDay, currentDayDetails, upcomingDays });
-       // setLoading(false);
+        setLoading(false);
     };
 
     const submitRequest = async location => {
