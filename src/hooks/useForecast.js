@@ -5,7 +5,7 @@ import getUpcomingDaysForecast from '../helpers/getUpcomingDaysForecast';
 
 import axios from 'axios';
 
-const BASE_URL = 'http://api.openweathermap.org'
+const BASE_URL = 'https://api.openweathermap.org'
 
 const useForecast = () => {
     const [isError, setError] = useState(false)

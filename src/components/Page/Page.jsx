@@ -26,7 +26,7 @@ const Page = () => {
                     {isLoading && <Loader />}
                 </div>
             )}
-            {forecast && <Forecast forecast={forecast} />}
+            {forecast && <Forecast forecast={forecast} submitSearch={onSubmit} />}
         </Fragment>
     );
 };
