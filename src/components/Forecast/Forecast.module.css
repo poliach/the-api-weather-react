@@ -12,3 +12,12 @@
     max-width: 675px;
     min-height: 300px;
 }
+
+
+
+.input-form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}

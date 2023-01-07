@@ -21,18 +21,24 @@ const Forecast = ({ forecast, submitSearch }) => {
     return (
     <>
         <Container>
-            <form className='d-flex ' onSubmit={onSubmit}>
+            <form className={styles['input-form']} onSubmit={onSubmit}>
                 <input
                     aria-label="location"
                     type="text"
                     className={`${formStyles.input} form-control`}
-                    placeholder="Search for location"
+                    placeholder="Next location"
                     required
                     value={location}
                     onChange={e => setLocation(e.target.value)}
+                    style={{ width: 250 }}
                 />
 
-                <button type="submit" className={formStyles.button} onClick={onSubmit}>
+                <button 
+                    type="submit" 
+                    className={formStyles.button} 
+                    onClick={onSubmit}
+                    style={{ width: 120 }}    
+                >
                     SEARCH
                 </button>
             </form>
